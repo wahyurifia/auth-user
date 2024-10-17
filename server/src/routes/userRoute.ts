@@ -1,6 +1,6 @@
 import { Router } from "express";
-const router: Router = Router();
 import userController from "../controllers/userController";
+const router: Router = Router();
 
 router.get("/", userController.getUsers);
 router.get("/:id", userController.getUserById);
