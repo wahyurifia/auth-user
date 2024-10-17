@@ -3,8 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRoute from "./routes/userRoute";
 import productRoute from "./routes/productRoute";
-import authRoutes from "./routes/authRoutes"
-import { authMiddleware } from "./middleware/auth";
+import authRoutes from "./routes/authRoutes";
+import { adminOnly, authMiddleware } from "./middleware/auth";
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
@@ -16,13 +16,9 @@ app.use(
     origin: [],
   })
 );
-app.use("/user", userRoute);
-app.use("/product", productRoute);
+app.use("/user", authMiddleware, adminOnly, userRoute);
+app.use("/product", authMiddleware, productRoute);
 app.use("/api/auth", authRoutes);
-app.get('/api/protected', authMiddleware, (req: Request, res: Response,) => {
-  res.json({ message: 'Protected content' });
-});
-
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
