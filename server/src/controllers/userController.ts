@@ -30,8 +30,7 @@ const createUser = async (req: Request, res: Response) => {
   const { name, email, password, confPassword, role } = req.body;
   try {
     await cekPassword(password, confPassword);
-    const hashPassword = hashSync(password, 10);
-    const user = await userService.addUser(name, email, hashPassword, role);
+    const user = await userService.addUser(name, email, password, role);
     res.status(200).json({
       message: "Success create user!",
       user,
