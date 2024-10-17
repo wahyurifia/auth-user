@@ -24,7 +24,7 @@ model User {
   name String
   email String @unique
   password String
-  role Role 
+  role Role @default(User)
   isDeleted Boolean @default(false)
   products Product[]
   createAt DateTime @default(now())
