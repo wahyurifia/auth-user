@@ -7,7 +7,7 @@ const SECRET_KEY =
 
 export const generateToken = (userId: string, role: Role): string => {
   return jwt.sign({ userId, role }, SECRET_KEY, {
-    expiresIn: "30s",
+    expiresIn: "1h",
   });
 };
 
