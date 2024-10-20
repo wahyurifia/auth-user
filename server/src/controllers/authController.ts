@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as authService from "../services/authService";
+import userService from "../services/userService";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -18,6 +19,7 @@ const logout = async (req: Request, res: Response) => {
 const register = async (req: Request, res: Response) => {
   const { name, email, password, confPassword } = req.body;
   try {
+    await userService.cekEmailUnique(email);
     if (password !== confPassword) {
       throw Error("Password doesn't match");
     }

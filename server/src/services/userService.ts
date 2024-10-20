@@ -92,4 +92,5 @@ export default {
   editUser,
   removeUser,
   updatePassword,
+  cekEmailUnique,
 };
