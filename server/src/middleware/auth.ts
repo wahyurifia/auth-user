@@ -34,5 +34,17 @@ export const adminOnly = (
   }
   next();
 };
-// 6aab325e-6f2a-4bbb-9c87-3f7bb4607783
-// 6aab325e-6f2a-4bbb-9c87-3f7bb4607783
+
+export const productMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if ((req as any).role === "Admin") {
+    const productId = req.params.id;
+    const userId: string = (req as any).userId;
+  } else {
+    const productId = req.params.id;
+  }
+  next();
+};

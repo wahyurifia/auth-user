@@ -4,7 +4,11 @@ import dotenv from "dotenv";
 import userRoute from "./routes/userRoute";
 import productRoute from "./routes/productRoute";
 import authRoutes from "./routes/authRoutes";
-import { adminOnly, authMiddleware } from "./middleware/auth";
+import {
+  adminOnly,
+  authMiddleware,
+  productMiddleware,
+} from "./middleware/auth";
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
@@ -17,7 +21,7 @@ app.use(
   })
 );
 app.use("/user", authMiddleware, adminOnly, userRoute);
-app.use("/product", authMiddleware, productRoute);
+app.use("/product", authMiddleware, productMiddleware, productRoute);
 app.use("/api/auth", authRoutes);
 
 app.get("/", (req: Request, res: Response) => {
