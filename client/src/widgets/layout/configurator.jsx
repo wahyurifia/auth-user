@@ -16,9 +16,10 @@ import { Link } from "react-router-dom";
 
 export function Configurator() {
   const [controller, dispatch] = useMaterialTailwindController();
-  const { openConfigurator, fixedNavbar } =
-    controller;
-
+  const { openConfigurator, fixedNavbar } =  controller;
+  const logoutUser = () => {
+    localStorage.removeItem("token")
+  }
   return (
     <aside
       className={`fixed top-0 right-0 z-50 h-screen w-96 bg-white px-2.5 shadow-lg transition-transform duration-300 ${openConfigurator ? "translate-x-0" : "translate-x-96"
@@ -88,7 +89,7 @@ export function Configurator() {
             <Link
               to="/auth/sign-in"
             >
-              <Button fullWidth variant="outlined" className="flex items-center justify-center gap-2">
+              <Button onClick={logoutUser} fullWidth variant="outlined" className="flex items-center justify-center gap-2">
                 Logout{" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

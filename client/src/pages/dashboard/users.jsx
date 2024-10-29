@@ -12,19 +12,20 @@ import { AddUser } from "@/widgets/modal";
 
 export function Users() {
   const [data, setData] = useState([]);
+  const token = localStorage.getItem('token')
 
-  const fetchData = async () => {
-    try {
-      const result = await fetchDataFromSupabase('user');
-      setData(result)
-
-    } catch (error) {
-      setError(error);
-    }
-  };
   useEffect(() => {
-    fetchData();
+    const fetchData = async () => {
+      try {
+        const result = await fetchDataFromSupabase(token);
+         setData(result)
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData()
   }, []);
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
