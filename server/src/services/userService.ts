@@ -12,6 +12,7 @@ const findUsers = async (isDeleted: boolean) => {
       name: true,
       email: true,
       role: true,
+      isDeleted: true,
     },
   });
   return response;
