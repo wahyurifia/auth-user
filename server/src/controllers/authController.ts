@@ -1,12 +1,20 @@
 import { Request, Response } from "express";
 import * as authService from "../services/authService";
 import userService from "../services/userService";
+import { verifyToken } from "../utils/jwt";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const token = await authService.login(email, password);
-    res.json({ token });
+    const { userId, role } = verifyToken(token);
+    (req as any).userId = userId;
+    (req as any).role = role;
+    res.json({
+      token,
+      userId,
+      role,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
