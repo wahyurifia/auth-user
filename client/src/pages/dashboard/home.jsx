@@ -1,20 +1,10 @@
-import { AddProduct } from "@/widgets/modal/addProduct";
-import { FolderPlusIcon } from "@heroicons/react/24/solid";
-import { Button } from "@material-tailwind/react";
+import { useUserContext } from "@/context";
 
 export function Home() {
+  const { userId, role } = useUserContext();
+  console.log(userId, role);
 
-
-  return (
-    <div className="mt-12">
-      <Button
-        variant="gradient"
-      >
-        <FolderPlusIcon className="w-5 h-5 text-inherit" />
-      </Button>
-      <AddProduct />
-    </div>
-  );
+  return <div className="mt-12">...</div>;
 }
 
 export default Home;

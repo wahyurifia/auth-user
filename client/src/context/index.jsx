@@ -43,7 +43,7 @@ export function MaterialTailwindControllerProvider({ children }) {
   const [controller, dispatch] = React.useReducer(reducer, initialState);
   const value = React.useMemo(
     () => [controller, dispatch],
-    [controller, dispatch]
+    [controller, dispatch],
   );
 
   return (
@@ -58,12 +58,29 @@ export function useMaterialTailwindController() {
 
   if (!context) {
     throw new Error(
-      "useMaterialTailwindController should be used inside the MaterialTailwindControllerProvider."
+      "useMaterialTailwindController should be used inside the MaterialTailwindControllerProvider.",
     );
   }
 
   return context;
 }
+
+const UserContext = React.createContext();
+
+export const UserProvider = ({ children }) => {
+  const [userId, setUserId] = React.useState(null);
+  const [role, setRole] = React.useState(null);
+
+  return (
+    <UserContext.Provider value={{ userId, setUserId, role, setRole }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export const useUserContext = () => {
+  return React.useContext(UserContext);
+};
 
 MaterialTailwindControllerProvider.displayName = "/src/context/index.jsx";
 

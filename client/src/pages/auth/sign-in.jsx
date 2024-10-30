@@ -1,46 +1,58 @@
-import {
-  Input,
-  Checkbox,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
+import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useUserContext } from "@/context";
 
 export const SignIn = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setUserId, setRole } = useUserContext();
 
   const navigate = useNavigate();
   const saveUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`https://auth-user-mu.vercel.app/api/auth/login`, {
-        email,
-        password,
-      });
-      const token = response.data.token
-      localStorage.setItem("token", token)
-      console.log(token);
-      navigate("/dashboard/home")
+      setLoading(true);
+      const response = await axios.post(
+        `https://auth-user-mu.vercel.app/api/auth/login`,
+        {
+          email,
+          password,
+        },
+      );
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      setUserId(response.data.userId);
+      setRole(response.data.role);
+
+      navigate("/dashboard/home");
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  
   return (
     <section className="m-8 flex justify-between gap-4">
-      <div className="w-full lg:w-3/5 mt-24">
+      <div className="mt-24 w-full lg:w-3/5">
         <div className="text-center">
-          <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
+          <Typography variant="h2" className="mb-4 font-bold">
+            Sign In
+          </Typography>
         </div>
-        <form onSubmit={saveUser} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+        <form
+          onSubmit={saveUser}
+          className="mx-auto mb-2 mt-8 w-80 max-w-screen-lg lg:w-1/2"
+        >
           <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="-mb-3 font-medium"
+            >
               Your email
             </Typography>
             <Input
@@ -48,12 +60,15 @@ export const SignIn = () => {
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               onChange={(e) => setEmail(e.target.value)}
-
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
             />
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="-mb-3 font-medium"
+            >
               Password
             </Typography>
             <Input
@@ -61,7 +76,6 @@ export const SignIn = () => {
               size="lg"
               placeholder="********"
               onChange={(e) => setPassword(e.target.value)}
-
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -78,7 +92,7 @@ export const SignIn = () => {
                 I agree the&nbsp;
                 <a
                   href="#"
-                  className="font-normal text-black transition-colors hover:text-gray-900 underline"
+                  className="font-normal text-black underline transition-colors hover:text-gray-900"
                 >
                   Terms and Conditions
                 </a>
@@ -87,26 +101,28 @@ export const SignIn = () => {
             containerProps={{ className: "-ml-2.5" }}
           />
           <Button type="submit" className="mt-6" fullWidth>
-            Sign In
+            {loading ? "Loading..." : "Sign In"}
           </Button>
 
-
-          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
+          <Typography
+            variant="paragraph"
+            className="mt-4 text-center font-medium text-blue-gray-500"
+          >
             Not registered?
-            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Create account</Link>
+            <Link to="/auth/sign-up" className="ml-1 text-gray-900">
+              Create account
+            </Link>
           </Typography>
         </form>
-
       </div>
-      <div className="w-3/6 h-full hidden lg:block">
+      <div className="hidden h-full w-3/6 lg:block">
         <img
           src="/img/pattern-signin.png"
-          className="h-full w-full object-cover rounded-3xl"
+          className="h-full w-full rounded-3xl object-cover"
         />
       </div>
-
     </section>
   );
-}
+};
 
 export default SignIn;

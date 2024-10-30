@@ -8,6 +8,10 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "prettier": {
+    "tailwindConfig": "./tailwind.config.cjs",
+    "plugins": ["prettier-plugin-tailwindcss"]
+  },
   "dependencies": {
     "@heroicons/react": "2.0.18",
     "@material-tailwind/react": "2.1.4",
@@ -30,5 +34,7 @@
     "prettier-plugin-tailwindcss": "0.5.6",
     "tailwindcss": "3.3.4",
     "vite": "4.5.0"
+    
   }
 }
+

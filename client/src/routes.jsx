@@ -8,7 +8,14 @@ import {
   FolderIcon,
   FolderOpenIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Product, Products, Users, Notifications } from "@/pages/dashboard";
+import {
+  Home,
+  Profile,
+  Product,
+  Products,
+  Users,
+  Notifications,
+} from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 
 const icon = {
@@ -17,6 +24,7 @@ const icon = {
 
 export const routes = [
   {
+    userRole: "user",
     layout: "dashboard",
     pages: [
       {
