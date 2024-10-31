@@ -8,6 +8,8 @@ const findProducts = async (userId?: string) => {
       id: true,
       name: true,
       price: true,
+      isDeleted: true,
+      createAt: true,
       user: {
         select: {
           name: true,
@@ -25,7 +27,11 @@ const findProductById = async (productId: string, userId?: string) => {
     select: {
       name: true,
       price: true,
-      user: { select: { name: true, email: true } },
+      isDeleted: true,
+      createAt: true,
+      user: {
+        select: { name: true, email: true },
+      },
     },
   });
   if (response === null) throw Error("Product not found");

@@ -13,6 +13,7 @@ const findUsers = async (isDeleted: boolean) => {
       email: true,
       role: true,
       isDeleted: true,
+      createAt: true,
     },
   });
   return response;
@@ -27,6 +28,7 @@ const findUserById = async (id: string) => {
       email: true,
       password: true,
       role: true,
+      createAt: true,
     },
   });
   if (!response) throw Error("user not found!");
