@@ -2,17 +2,12 @@ import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, IconButton, Typography } from "@material-tailwind/react";
-import {
-  useMaterialTailwindController,
-  setOpenSidenav,
-  useUserContext,
-} from "@/context";
+import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 
 export function Sidenav({ brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { openSidenav } = controller;
-  const { userId, role } = useUserContext();
-  console.log(role);
+  const role = localStorage.getItem("role");
 
   return (
     <aside
@@ -49,28 +44,51 @@ export function Sidenav({ brandName, routes }) {
               </li>
             )}
 
-            {layout === "dashboard" &&
-              pages.map(({ icon, name, path }) => (
-                <li key={name}>
-                  <NavLink to={`/${layout}${path}`}>
-                    {({ isActive }) => (
-                      <Button
-                        variant={isActive ? "gradient" : "text"}
-                        className="flex items-center gap-4 px-4 capitalize"
-                        fullWidth
-                      >
-                        {icon}
-                        <Typography
-                          color="inherit"
-                          className="font-medium capitalize"
+            {role === "Admin"
+              ? layout === "dashboard" &&
+                pages.map(({ icon, name, path }) => (
+                  <li key={name}>
+                    <NavLink to={`/${layout}${path}`}>
+                      {({ isActive }) => (
+                        <Button
+                          variant={isActive ? "gradient" : "text"}
+                          className="flex items-center gap-4 px-4 capitalize"
+                          fullWidth
                         >
-                          {name}
-                        </Typography>
-                      </Button>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
+                          {icon}
+                          <Typography
+                            color="inherit"
+                            className="font-medium capitalize"
+                          >
+                            {name}
+                          </Typography>
+                        </Button>
+                      )}
+                    </NavLink>
+                  </li>
+                ))
+              : userRole === "user" &&
+                pages.map(({ icon, name, path }) => (
+                  <li key={name}>
+                    <NavLink to={`/${layout}${path}`}>
+                      {({ isActive }) => (
+                        <Button
+                          variant={isActive ? "gradient" : "text"}
+                          className="flex items-center gap-4 px-4 capitalize"
+                          fullWidth
+                        >
+                          {icon}
+                          <Typography
+                            color="inherit"
+                            className="font-medium capitalize"
+                          >
+                            {name}
+                          </Typography>
+                        </Button>
+                      )}
+                    </NavLink>
+                  </li>
+                ))}
           </ul>
         ))}
       </div>

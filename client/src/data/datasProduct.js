@@ -13,7 +13,6 @@ export const getProducts = async (token) => {
     const dataProduct = response.data.product.map((item) => ({
       name: item.name,
       price: convertRupiah(item.price),
-      user: item.user.name,
       status: item.isDeleted,
       date: convertDate(item.createAt),
     }));
@@ -21,6 +20,28 @@ export const getProducts = async (token) => {
   } catch (error) {
     console.error("Error fetching data from Supabase:", error);
     throw error;
+  }
+};
+
+export const getProductById = async (token, userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const item = response.data.product;
+    const dataProduct = {
+      name: item.name,
+      price: item.price,
+      status: item.isDeleted,
+      user: item.user.name,
+      date: convertDate(item.createAt),
+    };
+    return dataProduct;
+  } catch (error) {
+    console.log(error);
   }
 };
 

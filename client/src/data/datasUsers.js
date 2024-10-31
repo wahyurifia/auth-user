@@ -24,3 +24,24 @@ export const getUsers = async (token) => {
     throw error;
   }
 };
+
+export const getUserById = async (token, userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const { name, email, role, createAt } = response.data.user;
+    const dataUser = {
+      name,
+      email,
+      role,
+      date: convertDate(createAt),
+    };
+    return dataUser;
+  } catch (error) {
+    console.error("Error fetching data from Supabase:", error);
+    throw error;
+  }
+};

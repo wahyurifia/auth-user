@@ -2,13 +2,11 @@ import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserContext } from "@/context";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUserId, setRole } = useUserContext();
 
   const navigate = useNavigate();
   const saveUser = async (e) => {
@@ -22,10 +20,12 @@ export const SignIn = () => {
           password,
         },
       );
-      const token = response.data.token;
+      console.log(response.data);
+
+      const { token, role, userId } = response.data;
       localStorage.setItem("token", token);
-      setUserId(response.data.userId);
-      setRole(response.data.role);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
 
       navigate("/dashboard/home");
     } catch (error) {

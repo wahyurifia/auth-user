@@ -65,23 +65,6 @@ export function useMaterialTailwindController() {
   return context;
 }
 
-const UserContext = React.createContext();
-
-export const UserProvider = ({ children }) => {
-  const [userId, setUserId] = React.useState(null);
-  const [role, setRole] = React.useState(null);
-
-  return (
-    <UserContext.Provider value={{ userId, setUserId, role, setRole }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
-
-export const useUserContext = () => {
-  return React.useContext(UserContext);
-};
-
 MaterialTailwindControllerProvider.displayName = "/src/context/index.jsx";
 
 MaterialTailwindControllerProvider.propTypes = {
