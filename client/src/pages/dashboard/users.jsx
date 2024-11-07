@@ -135,21 +135,23 @@ export function Users() {
                           {date}
                         </Typography>
                       </td>
-                      <td className={`${className} flex gap-4`}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Edit
-                        </Typography>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Remove
-                        </Typography>
+                      <td className={className}>
+                        <div className="flex">
+                          <Typography
+                            as="a"
+                            href="#"
+                            className="me-4 text-xs font-semibold text-blue-gray-600"
+                          >
+                            Edit
+                          </Typography>
+                          <Typography
+                            as="a"
+                            href="#"
+                            className="text-xs font-semibold text-blue-gray-600"
+                          >
+                            Remove
+                          </Typography>
+                        </div>
                       </td>
                     </tr>
                   );

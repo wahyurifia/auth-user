@@ -34,17 +34,3 @@ export const adminOnly = (
   }
   next();
 };
-
-export const productMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  if ((req as any).role === "Admin") {
-    const productId = req.params.id;
-    const userId: string = (req as any).userId;
-  } else {
-    const productId = req.params.id;
-  }
-  next();
-};

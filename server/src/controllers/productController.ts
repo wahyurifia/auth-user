@@ -1,23 +1,28 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import productService from "../services/productService";
 const prisma = new PrismaClient();
 
 const getProducts = async (req: Request, res: Response) => {
   try {
-    if ((req as any).role === "Admin") {
-      const product = await productService.findProducts();
-      res.status(200).json({
-        message: "Success get all product (Admin)",
-        product,
-      });
-    } else {
-      const product = await productService.findProducts((req as any).userId);
-      res.status(200).json({
-        message: "Success get all product by id user (user)",
-        product,
-      });
-    }
+    const products = await productService.findProducts();
+    res.status(200).json({
+      message: "Success get all product (Admin)",
+      products,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getProduct = async (req: Request, res: Response) => {
+  const userId: string = (req as any).userId;
+  try {
+    const products = await productService.findProducts(userId);
+    res.status(200).json({
+      message: "Success get all product by userId",
+      products,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -30,13 +35,13 @@ const getProductById = async (req: Request, res: Response) => {
     if ((req as any).role === "Admin") {
       const product = await productService.findProductById(productId);
       res.status(200).json({
-        message: "Success get one product by (admin) =" + product?.user.name,
+        message: "Success get one product  by productId =" + product?.user.name,
         product,
       });
     } else {
       const product = await productService.findProductById(productId, userId);
       res.status(200).json({
-        message: "Success get one product = " + product?.user.name,
+        message: "Success get one product  by productId =" + product?.user.name,
         product,
       });
     }
@@ -94,6 +99,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 export default {
   getProducts,
+  getProduct,
   getProductById,
   createProduct,
   updateProduct,
