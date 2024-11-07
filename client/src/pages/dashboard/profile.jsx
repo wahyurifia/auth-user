@@ -55,27 +55,27 @@ export function Profile() {
                 className="rounded-lg shadow-lg shadow-blue-gray-500/40"
               />
               <div>
-                <Typography variant="h5" color="blue-gray" className="mb-1">
-                  {loading ? (
-                    <div className="animate-bounce py-1 text-center text-xs font-medium leading-none text-black  ">
-                      loading...
-                    </div>
-                  ) : (
-                    data.name
-                  )}
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-normal text-blue-gray-600"
-                >
-                  {loading ? (
-                    <div className="animate-bounce py-1 text-center text-xs font-medium leading-none text-black  ">
-                      loading...
-                    </div>
-                  ) : (
-                    data.role
-                  )}
-                </Typography>
+                {loading ? (
+                  <div className="animate-bounce py-1 text-center text-xs font-medium leading-none text-black  ">
+                    loading...
+                  </div>
+                ) : (
+                  <Typography variant="h5" color="blue-gray" className="mb-1">
+                    {data.name}
+                  </Typography>
+                )}
+                {loading ? (
+                  <div className="animate-bounce py-1 text-center text-xs font-medium leading-none text-black  ">
+                    loading...
+                  </div>
+                ) : (
+                  <Typography
+                    variant="small"
+                    className="font-normal text-blue-gray-600"
+                  >
+                    {data.role}
+                  </Typography>
+                )}
               </div>
             </div>
           </div>

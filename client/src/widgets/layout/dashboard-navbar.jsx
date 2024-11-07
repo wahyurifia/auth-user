@@ -24,21 +24,24 @@ export function DashboardNavbar() {
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
 
+  const role = localStorage.getItem("role");
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
-      className={`rounded-xl transition-all ${fixedNavbar
-        ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-        : "px-0 py-1"
-        }`}
+      className={`rounded-xl transition-all ${
+        fixedNavbar
+          ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
+          : "px-0 py-1"
+      }`}
       fullWidth
       blurred={fixedNavbar}
     >
-      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center px-5">
+      <div className="flex flex-col-reverse justify-between gap-6 px-5 md:flex-row md:items-center">
         <div className="capitalize">
           <Breadcrumbs
-            className={`bg-transparent p-0 transition-all ${fixedNavbar ? "mt-1" : ""
-              }`}
+            className={`bg-transparent p-0 transition-all ${
+              fixedNavbar ? "mt-1" : ""
+            }`}
           >
             <Link to={`/${layout}`}>
               <Typography
@@ -62,14 +65,15 @@ export function DashboardNavbar() {
           </Typography>
         </div>
         <div className="flex items-center">
-          <div className="flex items-center gap-6 mx-4">
-            <Typography
-              variant="h6" color="blue-gray"
-            >
-              Wahyu
+          <div className="mx-4 flex items-center gap-6">
+            <Typography variant="h6" color="blue-gray">
+              {role}
             </Typography>
-            <Avatar src={"/img/default-user.png"} size="sm" variant="circular" />
-
+            <Avatar
+              src={"/img/default-user.png"}
+              size="sm"
+              variant="circular"
+            />
           </div>
 
           <IconButton
@@ -81,7 +85,7 @@ export function DashboardNavbar() {
           </IconButton>
         </div>
       </div>
-    </Navbar >
+    </Navbar>
   );
 }
 

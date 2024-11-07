@@ -20,8 +20,9 @@ export function Products() {
         setLoading(true);
         const result = await getProducts(token);
         setData(result);
+        console.log(result);
       } catch (error) {
-        setError(error);
+        console.log(error);
       } finally {
         setLoading(false);
       }

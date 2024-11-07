@@ -6,7 +6,7 @@ import {
   Avatar,
   Chip,
 } from "@material-tailwind/react";
-import { datasProduct, getProducts } from "@/data";
+import { getProduct } from "@/data";
 import { AddProduct } from "@/widgets/modal/addProduct";
 import { useEffect, useState } from "react";
 
@@ -14,12 +14,11 @@ export function Product() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const result = await getProducts(token);
+        const result = await getProduct(token);
         setData(result);
         console.log(result);
       } catch (error) {
@@ -89,7 +88,7 @@ export function Product() {
               <tbody>
                 {data.map(({ name, price, status, date }, key) => {
                   const className = `py-3 px-5 ${
-                    key === datasProduct.length - 1
+                    key === data.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
                   }`;
