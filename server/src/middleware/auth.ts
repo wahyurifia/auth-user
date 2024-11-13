@@ -19,7 +19,7 @@ export const authMiddleware = (
     (req as any).role = decoded.role;
     next();
   } catch (error) {
-    res.redirect("/api/auth/login");
+    res.redirect("/");
     // res.status(401).json({ message: "Invalid token" });
   }
 };
