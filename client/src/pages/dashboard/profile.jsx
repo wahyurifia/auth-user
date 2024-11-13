@@ -29,6 +29,9 @@ export function Profile() {
       console.log(result);
     } catch (error) {
       console.log(error);
+      error.response.data.message == "Invalid token"
+        ? (window.location.href = "/auth/sign-in")
+        : "";
     } finally {
       setLoading(false);
     }

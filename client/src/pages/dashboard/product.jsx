@@ -13,7 +13,13 @@ import { useEffect, useState } from "react";
 export function Product() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [shouldReload, setShouldReload] = useState(false);
   const token = localStorage.getItem("token");
+
+  const triggerReload = () => {
+    setShouldReload((prev) => !prev);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,12 +29,15 @@ export function Product() {
         console.log(result);
       } catch (error) {
         console.log(error);
+        error.response.data.message == "Invalid token"
+          ? (window.location.href = "/auth/sign-in")
+          : "";
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [shouldReload]);
   return (
     <div className="mb-8 mt-12 flex flex-col gap-12">
       <Card>
@@ -37,7 +46,10 @@ export function Product() {
           color="gray"
           className="mb-8 flex items-center gap-7 p-6"
         >
-          <AddProduct />
+          <AddProduct
+            onClick={() => setShowModal(true)}
+            onAddProductSuccess={triggerReload}
+          />
 
           <Typography variant="h6" color="white">
             Product Table List

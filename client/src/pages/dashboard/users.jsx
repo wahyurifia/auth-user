@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import { getUsers } from "@/data";
 import { useEffect, useState } from "react";
-import { AddUser } from "@/widgets/modal";
 
 export function Users() {
   const [data, setData] = useState([]);
@@ -22,7 +21,10 @@ export function Users() {
         const result = await getUsers(token);
         setData(result);
       } catch (error) {
-        setError(error);
+        console.log(error);
+        error.response.data.message == "Invalid token"
+          ? (window.location.href = "/auth/sign-in")
+          : "";
       } finally {
         setLoading(false);
       }
@@ -33,12 +35,7 @@ export function Users() {
   return (
     <div className="mb-8 mt-12 flex flex-col gap-12">
       <Card>
-        <CardHeader
-          variant="gradient"
-          color="gray"
-          className="mb-8 flex items-center gap-7 p-6"
-        >
-          <AddUser />
+        <CardHeader variant="gradient" color="gray" className="mb-8 p-6 ">
           <Typography variant="h6" color="white">
             Users Table List
           </Typography>

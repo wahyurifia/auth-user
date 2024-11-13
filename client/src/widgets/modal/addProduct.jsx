@@ -12,11 +12,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import { addProduct } from "@/data";
 
-export function AddProduct() {
+export function AddProduct({ onAddProductSuccess }) {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
@@ -30,10 +30,12 @@ export function AddProduct() {
     try {
       setLoading(true);
       const result = await addProduct(token, name, price, userId);
-      console.log(result);
     } catch (error) {
     } finally {
+      setName("");
+      setPrice("");
       setLoading(false);
+      onAddProductSuccess();
     }
     setOpen(!open);
   };
@@ -103,7 +105,7 @@ export function AddProduct() {
                   placeholder="0000000"
                   name="size"
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => setPrice(parseInt(e.target.value))}
                   className="placeholder:opacity-100 focus:!border-t-gray-900"
                   containerProps={{
                     className: "!min-w-full",
@@ -115,7 +117,7 @@ export function AddProduct() {
               </div>
               <div className="mr-8 mt-7">
                 <Button type="submit" onClick={saveData}>
-                  {loading ? "Add Product" : "..."}
+                  {loading ? "on process add data..." : "Add Product"}
                 </Button>
               </div>
             </div>
