@@ -20,6 +20,7 @@ export const authMiddleware = (
     next();
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });
+    res.redirect("/api/auth/login");
   }
 };
 
