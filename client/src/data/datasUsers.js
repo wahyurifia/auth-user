@@ -45,3 +45,26 @@ export const getUserById = async (token, userId) => {
     throw error;
   }
 };
+
+// export const addUser = async (token, name, email, password, confPassword) => {
+//   try {
+//     const response = await axios.post(
+//       API_URL,
+//       {
+//         name,
+//         email,
+//         password,
+//         confPassword,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       },
+//     );
+//     return response;
+//     // console.log(response);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
