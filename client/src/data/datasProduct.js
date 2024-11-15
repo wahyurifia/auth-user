@@ -35,6 +35,7 @@ export const getProduct = async (token) => {
       },
     });
     const dataProduct = response.data.products.map((item) => ({
+      productId: item.id,
       name: item.name,
       price: convertRupiah(item.price),
       status: item.isDeleted,

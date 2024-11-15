@@ -9,6 +9,7 @@ import {
 import { getProduct } from "@/data";
 import { AddProduct } from "@/widgets/modal/addProduct";
 import { useEffect, useState } from "react";
+import { EditProduct } from "@/widgets/modal";
 
 export function Product() {
   const [loading, setLoading] = useState(true);
@@ -98,7 +99,7 @@ export function Product() {
                 </tr>
               </thead>
               <tbody>
-                {data.map(({ name, price, status, date }, key) => {
+                {data.map(({ productId, name, price, status, date }, key) => {
                   const className = `py-3 px-5 ${
                     key === data.length - 1
                       ? ""
@@ -146,13 +147,8 @@ export function Product() {
                       </td>
                       <td className={`${className}`}>
                         <div className="flex">
-                          <Typography
-                            as="a"
-                            href="#"
-                            className="me-4 text-xs font-semibold text-blue-gray-600"
-                          >
-                            Edit
-                          </Typography>
+                          <EditProduct token={token} productId={productId} />
+
                           <Typography
                             as="a"
                             href="#"
