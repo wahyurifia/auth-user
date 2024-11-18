@@ -1,12 +1,20 @@
-import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
+import {
+  Input,
+  Checkbox,
+  Button,
+  Typography,
+  Alert,
+} from "@material-tailwind/react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
+  const [alert, setAlert] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
 
   const navigate = useNavigate();
   const saveUser = async (e) => {
@@ -14,12 +22,13 @@ export const SignIn = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://auth-user-mu.vercel.app/api/auth/login`,
+        `http://localhost:5000/api/auth/login`,
         {
           email,
           password,
         },
       );
+      setAlert(true);
       console.log(response.data);
 
       const { token, role, userId } = response.data;
@@ -27,16 +36,42 @@ export const SignIn = () => {
       localStorage.setItem("userId", userId);
       localStorage.setItem("role", role);
 
-      navigate("/dashboard/home");
+      setTimeout(() => {
+        setAlert(false);
+        navigate("/dashboard/home");
+      }, 2500);
     } catch (error) {
-      console.log(error.message);
+      setErr(error.response.data.message);
+      console.log(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="m-8 flex justify-between gap-4">
+    <section className="relative m-8 flex justify-between gap-4">
+      {alert && (
+        <div
+          class="absolute left-1/2 top-0 mb-4 flex w-1/2 -translate-x-1/2 transform items-center rounded-lg border border-green-300 bg-green-50 p-4 text-sm text-green-800  "
+          role="alert"
+        >
+          <svg
+            class="me-3 inline h-4 w-4 flex-shrink-0"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">Login successful!</span> Redirecting to
+            your dashboard...
+          </div>
+        </div>
+      )}
+
       <div className="mt-24 w-full lg:w-3/5">
         <div className="text-center">
           <Typography variant="h2" className="mb-4 font-bold">
@@ -57,13 +92,22 @@ export const SignIn = () => {
             </Typography>
             <Input
               size="lg"
-              placeholder="name@mail.com"
+              placeholder="john@gmail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               onChange={(e) => setEmail(e.target.value)}
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
             />
+            {err === "email" && (
+              <Typography
+                color="red"
+                className=" -my-4 ml-2 flex items-center text-xs font-normal"
+              >
+                Please enter a valid email address.
+              </Typography>
+            )}
+
             <Typography
               variant="small"
               color="blue-gray"
@@ -81,6 +125,14 @@ export const SignIn = () => {
                 className: "before:content-none after:content-none",
               }}
             />
+            {err === "password" && (
+              <Typography
+                color="red"
+                className=" -my-4 mb-1 ml-2 flex items-center text-xs font-normal"
+              >
+                Please enter a valid password.
+              </Typography>
+            )}
           </div>
           <Checkbox
             label={
@@ -100,9 +152,19 @@ export const SignIn = () => {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button type="submit" className="mt-6" fullWidth>
-            {loading ? "Loading..." : "Sign In"}
-          </Button>
+          {loading ? (
+            <Button
+              type="submit"
+              className="pointer-events-none mt-6 bg-gray-500"
+              fullWidth
+            >
+              Loading ...
+            </Button>
+          ) : (
+            <Button type="submit" className="mt-6" fullWidth>
+              Sign In
+            </Button>
+          )}
 
           <Typography
             variant="paragraph"

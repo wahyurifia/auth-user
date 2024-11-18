@@ -10,10 +10,13 @@
   },
   "prettier": {
     "tailwindConfig": "./tailwind.config.cjs",
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   },
   "dependencies": {
     "@heroicons/react": "2.0.18",
+    "@hookform/resolvers": "^3.9.1",
     "@material-tailwind/react": "2.1.4",
     "apexcharts": "3.44.0",
     "axios": "^1.7.7",
@@ -22,7 +25,8 @@
     "react": "18.2.0",
     "react-apexcharts": "1.4.1",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.17.0"
+    "react-router-dom": "6.17.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/react": "18.2.31",
@@ -34,7 +38,5 @@
     "prettier-plugin-tailwindcss": "0.5.6",
     "tailwindcss": "3.3.4",
     "vite": "4.5.0"
-    
   }
 }
-

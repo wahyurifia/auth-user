@@ -6,8 +6,11 @@ const prisma = new PrismaClient();
 
 export const login = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
-  if (!user || !compareSync(password, user.password)) {
-    throw new Error("Invalid email or password");
+
+  if (!user) {
+    throw new Error("email");
+  } else if (!compareSync(password, user.password)) {
+    throw new Error("password");
   }
   return generateToken(user.id, user.role);
 };

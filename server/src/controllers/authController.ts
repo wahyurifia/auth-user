@@ -25,12 +25,10 @@ const logout = async (req: Request, res: Response) => {
 };
 
 const register = async (req: Request, res: Response) => {
-  const { name, email, password, confPassword } = req.body;
+  const { name, email, password } = req.body;
   try {
     await userService.cekEmailUnique(email);
-    if (password !== confPassword) {
-      throw Error("Password doesn't match");
-    }
+
     await authService.register(name, email, password);
     res.status(201).json({ message: "register success!" });
   } catch (error: any) {
