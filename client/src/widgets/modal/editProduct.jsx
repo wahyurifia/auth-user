@@ -11,36 +11,42 @@ import {
   Option,
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { getProductById } from "@/data";
+import { editProduct, getProductById } from "@/data";
 
-export function EditProduct({ token, productId }) {
-  const [open, setOpen] = useState(false);
+export function EditProduct({ onAddProductSuccess, token, productId }) {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({
-    name: "",
-    price: 0,
-    status: "",
-  });
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
+    fetching();
+  }, []);
+
+  const fetching = async () => {
+    const response = await getProductById(token, productId);
+    setName(response.name);
+    setPrice(response.price);
+    setStatus(response.status);
+  };
+
+  const saveData = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
-      const fetching = async () => {
-        const response = await getProductById(token, productId);
-        setData({
-          name: response.name,
-          price: response.price,
-          status: response.status,
-        });
-        fetching();
-      };
+      const result = await editProduct(token, name, price, status, productId);
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
+      setName("");
+      setPrice("");
+      onAddProductSuccess();
     }
-  }, []);
-  const handleOpen = () => {
     setOpen(!open);
   };
 
@@ -86,7 +92,8 @@ export function EditProduct({ token, productId }) {
                 size="lg"
                 placeholder="Name Product"
                 name="name"
-                value={loading ? "...." : data.name}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="placeholder:opacity-100 focus:!border-t-gray-900"
                 containerProps={{
                   className: "!min-w-full",
@@ -112,7 +119,8 @@ export function EditProduct({ token, productId }) {
                   size="lg"
                   placeholder="0000000"
                   name="size"
-                  value={loading ? "...." : data.price}
+                  value={price}
+                  onChange={(e) => setPrice(parseInt(e.target.value))}
                   className="placeholder:opacity-100 focus:!border-t-gray-900"
                   containerProps={{
                     className: "!min-w-full",
@@ -131,20 +139,24 @@ export function EditProduct({ token, productId }) {
                   Status
                 </Typography>
                 <Select
+                  id="status"
                   className="focus:!border-primary group-hover:!border-primary !w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-t-blue-gray-900"
                   placeholder="1"
                   labelProps={{
                     className: "hidden",
                   }}
-                  value="Available"
+                  value={status}
+                  onChange={(value) => setStatus(value)}
                 >
-                  <Option>Available</Option>
-                  <Option>Out of stock</Option>
+                  <Option value={"Active"}>Active</Option>
+                  <Option value={"Inactive"}>Inactive</Option>
                 </Select>
               </div>
             </div>
             <div className="">
-              <Button type="submit">Edit Product</Button>
+              <Button type="submit" onClick={saveData}>
+                {loading ? "on process edit data..." : "Edit Product"}
+              </Button>
             </div>
           </DialogBody>
         </form>

@@ -18,6 +18,10 @@ enum Role {
   Admin
   User
 }
+enum Status {
+  Active
+  Inactive
+}
 
 model User {
   id String @id @default(uuid())
@@ -25,7 +29,7 @@ model User {
   email String @unique
   password String
   role Role @default(User)
-  isDeleted Boolean @default(false)
+  status Status @default(Active)
   products Product[]
   createAt DateTime @default(now())
   @@map("user")
@@ -35,7 +39,7 @@ model Product {
   id String @id @default(uuid())
   name String
   price Int 
-  isDeleted Boolean @default(false)
+  status Status @default(Active)
   userId String
   user User @relation(fields: [userId], references: [id])
   createAt DateTime @default(now())

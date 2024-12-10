@@ -9,7 +9,7 @@ import {
 import { getProduct } from "@/data";
 import { AddProduct } from "@/widgets/modal/addProduct";
 import { useEffect, useState } from "react";
-import { EditProduct } from "@/widgets/modal";
+import { DeleteModal, EditProduct } from "@/widgets/modal";
 
 export function Product() {
   const [loading, setLoading] = useState(true);
@@ -39,6 +39,7 @@ export function Product() {
     };
     fetchData();
   }, [shouldReload]);
+
   return (
     <div className="mb-8 mt-12 flex flex-col gap-12">
       <Card>
@@ -135,8 +136,8 @@ export function Product() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={status ? "red" : "green"}
-                          value={status ? "deleted" : "available"}
+                          color={status == "Active" ? "green" : "red"}
+                          value={status}
                           className="w-fit px-2 py-0.5 text-[11px] font-medium"
                         />
                       </td>
@@ -147,15 +148,18 @@ export function Product() {
                       </td>
                       <td className={`${className}`}>
                         <div className="flex">
-                          <EditProduct token={token} productId={productId} />
-
-                          <Typography
-                            as="a"
-                            href="#"
-                            className="text-xs font-semibold text-blue-gray-600"
-                          >
-                            Remove
-                          </Typography>
+                          <EditProduct
+                            token={token}
+                            productId={productId}
+                            onClick={() => setShowModal(true)}
+                            onAddProductSuccess={triggerReload}
+                          />
+                          <DeleteModal
+                            token={token}
+                            productId={productId}
+                            onClick={() => setShowModal(true)}
+                            onAddProductSuccess={triggerReload}
+                          />
                         </div>
                       </td>
                     </tr>

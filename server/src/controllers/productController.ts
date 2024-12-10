@@ -67,12 +67,13 @@ const createProduct = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   const userId: string = (req as any).userId;
   const productId: string = req.params.id;
-  const { name, price } = req.body;
+  const { name, price, status } = req.body;
   try {
     const product = await productService.editProduct(
       productId,
       name,
       price,
+      status,
       userId
     );
     res.status(200).json({

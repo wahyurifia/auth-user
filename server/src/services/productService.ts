@@ -1,14 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Status } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const findProducts = async (userId?: string) => {
   const response = await prisma.product.findMany({
-    where: { userId, isDeleted: false },
+    where: { userId },
     select: {
       id: true,
       name: true,
       price: true,
-      isDeleted: true,
+      status: true,
       createAt: true,
       user: {
         select: {
@@ -23,11 +23,11 @@ const findProducts = async (userId?: string) => {
 
 const findProductById = async (productId: string, userId?: string) => {
   const response = await prisma.product.findFirst({
-    where: { id: productId, userId, isDeleted: false },
+    where: { id: productId, userId },
     select: {
       name: true,
       price: true,
-      isDeleted: true,
+      status: true,
       createAt: true,
       user: {
         select: { name: true, email: true },
@@ -61,13 +61,14 @@ const editProduct = async (
   productId: string,
   name: string,
   price: number,
+  status: Status,
   userId?: string
 ) => {
   await findProductById(productId, userId);
 
   const response = await prisma.product.update({
     where: { id: productId },
-    data: { name, price },
+    data: { name, price, status },
     select: {
       name: true,
       price: true,
@@ -79,9 +80,8 @@ const editProduct = async (
 const removeProduct = async (productId: string, userId?: string) => {
   await findProductById(productId, userId);
 
-  await prisma.product.update({
+  await prisma.product.delete({
     where: { id: productId },
-    data: { isDeleted: true },
   });
 };
 

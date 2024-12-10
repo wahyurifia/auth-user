@@ -3,9 +3,8 @@ import userService from "../services/userService";
 import { hashSync } from "bcrypt";
 
 const getUsers = async (req: Request, res: Response) => {
-  const isDeleted: boolean = false;
   try {
-    const users = await userService.findUsers(isDeleted);
+    const users = await userService.findUsers();
     res.status(200).json({
       messsage: "Success get all user",
       users,

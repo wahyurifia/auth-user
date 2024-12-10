@@ -2,17 +2,14 @@ import { PrismaClient, Role } from "@prisma/client";
 const prisma = new PrismaClient();
 import { compareSync, hashSync } from "bcrypt";
 
-const findUsers = async (isDeleted: boolean) => {
+const findUsers = async () => {
   const response = await prisma.user.findMany({
-    where: {
-      isDeleted: false,
-    },
     select: {
       id: true,
       name: true,
       email: true,
       role: true,
-      isDeleted: true,
+      status: true,
       createAt: true,
     },
   });
@@ -64,10 +61,10 @@ const editUser = async (
   });
   return response;
 };
+
 const removeUser = async (id: string) => {
-  await prisma.user.update({
+  await prisma.user.delete({
     where: { id },
-    data: { isDeleted: true },
   });
 };
 

@@ -2,8 +2,8 @@ import { convertRupiah } from "@/utils/rupiah";
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
-const API_PRODUCTS = "https://auth-user-mu.vercel.app/products";
-const API_PRODUCT = "https://auth-user-mu.vercel.app/product";
+const API_PRODUCTS = "http://localhost:5000/products";
+const API_PRODUCT = "http://localhost:5000/product";
 
 export const getProducts = async (token) => {
   try {
@@ -16,7 +16,7 @@ export const getProducts = async (token) => {
       name: item.name,
       price: convertRupiah(item.price),
       user: item.user.name,
-      status: item.isDeleted,
+      status: item.status,
       date: convertDate(item.createAt),
     }));
     console.log(dataProduct);
@@ -38,7 +38,7 @@ export const getProduct = async (token) => {
       productId: item.id,
       name: item.name,
       price: convertRupiah(item.price),
-      status: item.isDeleted,
+      status: item.status,
       date: convertDate(item.createAt),
     }));
     return dataProduct;
@@ -60,7 +60,7 @@ export const getProductById = async (token, userId) => {
     const dataProduct = {
       name: item.name,
       price: item.price,
-      status: item.isDeleted,
+      status: item.status,
       user: item.user.name,
       date: convertDate(item.createAt),
     };
@@ -85,6 +85,38 @@ export const addProduct = async (token, name, price, userId) => {
         },
       },
     );
+  } catch (error) {
+    console.error("Error add data :", error);
+  }
+};
+
+export const editProduct = async (token, name, price, status, productId) => {
+  try {
+    const response = await axios.put(
+      `${API_PRODUCT}/${productId}`,
+      {
+        name,
+        price,
+        status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ` + token,
+        },
+      },
+    );
+  } catch (error) {
+    console.error("Error add data :", error);
+  }
+};
+
+export const deleteProduct = async (token, productId) => {
+  try {
+    const response = await axios.delete(`${API_PRODUCT}/${productId}`, {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    });
     console.log(response);
   } catch (error) {
     console.error("Error add data :", error);

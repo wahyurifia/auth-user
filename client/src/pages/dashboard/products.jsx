@@ -127,8 +127,8 @@ export function Products() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={status ? "red" : "green"}
-                          value={status ? "deleted" : "available"}
+                          color={status == "Active" ? "green" : "red"}
+                          value={status}
                           className="w-fit px-2 py-0.5 text-[11px] font-medium"
                         />
                       </td>

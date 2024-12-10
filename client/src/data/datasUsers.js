@@ -1,7 +1,7 @@
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
-const API_URL = "https://auth-user-mu.vercel.app/user";
+const API_URL = "http://localhost:5000/user";
 export const getUsers = async (token) => {
   try {
     const response = await axios.get(API_URL, {
@@ -15,7 +15,7 @@ export const getUsers = async (token) => {
       name: item.name,
       email: item.email,
       role: item.role,
-      status: item.isDeleted,
+      status: item.status,
       date: convertDate(item.createAt),
     }));
     return dataUsers;
