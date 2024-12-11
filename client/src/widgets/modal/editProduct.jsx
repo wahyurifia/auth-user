@@ -13,7 +13,7 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { editProduct, getProductById } from "@/data";
 
-export function EditProduct({ onAddProductSuccess, token, productId }) {
+export function EditProduct({ onAddProductSuccess, token, productId, userId }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -39,7 +39,14 @@ export function EditProduct({ onAddProductSuccess, token, productId }) {
     e.preventDefault();
     try {
       setLoading(true);
-      const result = await editProduct(token, name, price, status, productId);
+      const result = await editProduct(
+        token,
+        name,
+        price,
+        status,
+        productId,
+        userId,
+      );
     } catch (error) {
     } finally {
       setLoading(false);
@@ -63,7 +70,7 @@ export function EditProduct({ onAddProductSuccess, token, productId }) {
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
         <DialogHeader className="relative m-0 block">
           <Typography variant="h4" color="blue-gray">
-            {productId}
+            Edit Menu
           </Typography>
           <Typography className="mt-1 font-normal text-gray-600">
             Enter the required fields to fill out the form.

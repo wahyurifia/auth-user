@@ -13,6 +13,7 @@ export const getProducts = async (token) => {
       },
     });
     const dataProduct = response.data.products.map((item) => ({
+      productId: item.id,
       name: item.name,
       price: convertRupiah(item.price),
       user: item.user.name,
@@ -90,7 +91,14 @@ export const addProduct = async (token, name, price, userId) => {
   }
 };
 
-export const editProduct = async (token, name, price, status, productId) => {
+export const editProduct = async (
+  token,
+  name,
+  price,
+  status,
+  productId,
+  userId,
+) => {
   try {
     const response = await axios.put(
       `${API_PRODUCT}/${productId}`,
@@ -98,6 +106,7 @@ export const editProduct = async (token, name, price, status, productId) => {
         name,
         price,
         status,
+        userId,
       },
       {
         headers: {

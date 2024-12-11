@@ -16,7 +16,7 @@ export function Product() {
   const [data, setData] = useState([]);
   const [shouldReload, setShouldReload] = useState(false);
   const token = localStorage.getItem("token");
-
+  const userId = localStorage.getItem("userId");
   const triggerReload = () => {
     setShouldReload((prev) => !prev);
   };
@@ -151,6 +151,7 @@ export function Product() {
                           <EditProduct
                             token={token}
                             productId={productId}
+                            userId={userId}
                             onClick={() => setShowModal(true)}
                             onAddProductSuccess={triggerReload}
                           />

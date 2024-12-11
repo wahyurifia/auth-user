@@ -8,11 +8,18 @@ import {
 } from "@material-tailwind/react";
 import { getProducts } from "@/data";
 import { useEffect, useState } from "react";
+import { EditProduct } from "@/widgets/modal";
 
 export function Products() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [shouldReload, setShouldReload] = useState(false);
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+
+  const triggerReload = () => {
+    setShouldReload((prev) => !prev);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +38,7 @@ export function Products() {
       }
     };
     fetchData();
-  }, []);
+  }, [shouldReload]);
 
   return (
     <div className="mb-8 mt-12 flex flex-col gap-12">
@@ -86,78 +93,80 @@ export function Products() {
                 </tr>
               </thead>
               <tbody>
-                {data.map(({ name, price, user, status, date }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === data.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+                {data.map(
+                  ({ productId, name, price, user, status, date }, key) => {
+                    const className = `py-3 px-5 ${
+                      key === data.length - 1
+                        ? ""
+                        : "border-b border-blue-gray-50"
+                    }`;
 
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar
-                            src={"/img/product.png"}
-                            alt={name}
-                            size="sm"
-                            variant="rounded"
-                          />
-                          <div>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-semibold"
-                            >
-                              {name}
-                            </Typography>
+                    return (
+                      <tr key={name}>
+                        <td className={className}>
+                          <div className="flex items-center gap-4">
+                            <Avatar
+                              src={"/img/product.png"}
+                              alt={name}
+                              size="sm"
+                              variant="rounded"
+                            />
+                            <div>
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-semibold"
+                              >
+                                {name}
+                              </Typography>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {price}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {user}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Chip
-                          variant="gradient"
-                          color={status == "Active" ? "green" : "red"}
-                          value={status}
-                          className="w-fit px-2 py-0.5 text-[11px] font-medium"
-                        />
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <div className="flex">
-                          <Typography
-                            as="a"
-                            href="#"
-                            className="me-4 text-xs font-semibold text-blue-gray-600"
-                          >
-                            Edit
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
+                            {price}
                           </Typography>
-                          <Typography
-                            as="a"
-                            href="#"
-                            className="text-xs font-semibold text-blue-gray-600"
-                          >
-                            Remove
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {user}
                           </Typography>
-                        </div>{" "}
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </td>
+                        <td className={className}>
+                          <Chip
+                            variant="gradient"
+                            color={status == "Active" ? "green" : "red"}
+                            value={status}
+                            className="w-fit px-2 py-0.5 text-[11px] font-medium"
+                          />
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
+                            {date}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <div className="flex">
+                            <EditProduct
+                              token={token}
+                              productId={productId}
+                              userId={userId}
+                              onClick={() => setShowModal(true)}
+                              onAddProductSuccess={triggerReload}
+                            />
+                            <Typography
+                              as="a"
+                              href="#"
+                              className="text-xs font-semibold text-blue-gray-600"
+                            >
+                              Remove
+                            </Typography>
+                          </div>{" "}
+                        </td>
+                      </tr>
+                    );
+                  },
+                )}
               </tbody>
             </table>
           )}
