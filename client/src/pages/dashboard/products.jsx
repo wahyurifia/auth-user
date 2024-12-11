@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { getProducts } from "@/data";
 import { useEffect, useState } from "react";
-import { EditProduct } from "@/widgets/modal";
+import { DeleteModal, EditProduct } from "@/widgets/modal";
 
 export function Products() {
   const [data, setData] = useState([]);
@@ -95,11 +95,10 @@ export function Products() {
               <tbody>
                 {data.map(
                   ({ productId, name, price, user, status, date }, key) => {
-                    const className = `py-3 px-5 ${
-                      key === data.length - 1
-                        ? ""
-                        : "border-b border-blue-gray-50"
-                    }`;
+                    const className = `py-3 px-5 ${key === data.length - 1
+                      ? ""
+                      : "border-b border-blue-gray-50"
+                      }`;
 
                     return (
                       <tr key={name}>
@@ -154,13 +153,12 @@ export function Products() {
                               onClick={() => setShowModal(true)}
                               onAddProductSuccess={triggerReload}
                             />
-                            <Typography
-                              as="a"
-                              href="#"
-                              className="text-xs font-semibold text-blue-gray-600"
-                            >
-                              Remove
-                            </Typography>
+                            <DeleteModal
+                              token={token}
+                              productId={productId}
+                              onClick={() => setShowModal(true)}
+                              onAddProductSuccess={triggerReload}
+                            />
                           </div>{" "}
                         </td>
                       </tr>

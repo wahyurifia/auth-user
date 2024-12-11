@@ -63,12 +63,12 @@ const editProduct = async (
   name: string,
   price: number,
   status: Status,
-  userId?: string
+  // userId?: string
 ) => {
-  const data = await findProductById(productId, userId);
+  await findProductById(productId);
 
   const response = await prisma.product.update({
-    where: { id: data.id },
+    where: { id: productId },
     data: { name, price, status },
     select: {
       name: true,
@@ -78,8 +78,8 @@ const editProduct = async (
   });
   return response;
 };
-const removeProduct = async (productId: string, userId?: string) => {
-  await findProductById(productId, userId);
+const removeProduct = async (productId: string) => {
+  await findProductById(productId);
 
   await prisma.product.delete({
     where: { id: productId },
