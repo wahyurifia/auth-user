@@ -1,7 +1,11 @@
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
+<<<<<<< HEAD
 const API_URL = "https://auth-user-one.vercel.app/user";
+=======
+const API_URL = "https://auth-user-mu.vercel.app/user";
+>>>>>>> 82baec51ec163269e96d98a3bb8cf4991c900451
 export const getUsers = async (token) => {
   try {
     const response = await axios.get(API_URL, {

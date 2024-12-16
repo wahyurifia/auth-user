@@ -2,8 +2,13 @@ import { convertRupiah } from "@/utils/rupiah";
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
+<<<<<<< HEAD
 const API_PRODUCTS = "https://auth-user-one.vercel.app/products";
 const API_PRODUCT = "https://auth-user-one.vercel.app/product";
+=======
+const API_PRODUCTS = "https://auth-user-mu.vercel.app/products";
+const API_PRODUCT = "https://auth-user-mu.vercel.app/product";
+>>>>>>> 82baec51ec163269e96d98a3bb8cf4991c900451
 
 export const getProducts = async (token) => {
   try {

@@ -62,10 +62,10 @@ const editProduct = async (
   productId: string,
   name: string,
   price: number,
-  status: Status
-  // userId?: string
+  status: Status,
+  userId?: string
 ) => {
-  await findProductById(productId);
+  const data = await findProductById(productId);
 
   const response = await prisma.product.update({
     where: { id: productId },
