@@ -22,11 +22,7 @@ export const SignIn = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-<<<<<<< HEAD
-        `https://auth-user-one.vercel.app/api/auth/login`,
-=======
         `https://auth-user-mu.vercel.app/api/auth/login`,
->>>>>>> 82baec51ec163269e96d98a3bb8cf4991c900451
         {
           email,
           password,
