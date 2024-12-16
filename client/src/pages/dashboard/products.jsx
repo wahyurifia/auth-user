@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { getProducts } from "@/data";
 import { useEffect, useState } from "react";
-import { EditProduct } from "@/widgets/modal";
+import { DeleteModal, EditProduct } from "@/widgets/modal";
 
 export function Products() {
   const [data, setData] = useState([]);
@@ -27,7 +27,6 @@ export function Products() {
         setLoading(true);
         const result = await getProducts(token);
         setData(result);
-        console.log(result);
       } catch (error) {
         console.log(error);
         error.response.data.message == "Invalid token"
@@ -154,13 +153,12 @@ export function Products() {
                               onClick={() => setShowModal(true)}
                               onAddProductSuccess={triggerReload}
                             />
-                            <Typography
-                              as="a"
-                              href="#"
-                              className="text-xs font-semibold text-blue-gray-600"
-                            >
-                              Remove
-                            </Typography>
+                            <DeleteModal
+                              token={token}
+                              productId={productId}
+                              onClick={() => setShowModal(true)}
+                              onAddProductSuccess={triggerReload}
+                            />
                           </div>{" "}
                         </td>
                       </tr>

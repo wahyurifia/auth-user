@@ -65,7 +65,6 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const updateProduct = async (req: Request, res: Response) => {
-  const userId: string = (req as any).userId;
   const productId: string = req.params.id;
   const { name, price, status } = req.body;
   try {
@@ -73,8 +72,7 @@ const updateProduct = async (req: Request, res: Response) => {
       productId,
       name,
       price,
-      status,
-      userId
+      status
     );
     res.status(200).json({
       message: "Success update one product by " + product?.user.name,
@@ -85,10 +83,9 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 const deleteProduct = async (req: Request, res: Response) => {
-  const userId: string = (req as any).userId;
   const productId: string = req.params.id;
   try {
-    const product = await productService.removeProduct(productId, userId);
+    const product = await productService.removeProduct(productId);
     res.status(200).json({
       message: "Success delete product",
       product,
