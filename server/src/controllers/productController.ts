@@ -65,7 +65,10 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const updateProduct = async (req: Request, res: Response) => {
+<<<<<<< HEAD
   // const userId: string = (req as any).userId;
+=======
+>>>>>>> 82baec5 (perubahan database)
   const productId: string = req.params.id;
   const { name, price, status } = req.body;
   try {
@@ -73,8 +76,12 @@ const updateProduct = async (req: Request, res: Response) => {
       productId,
       name,
       price,
+<<<<<<< HEAD
       status,
       // userId
+=======
+      status
+>>>>>>> 82baec5 (perubahan database)
     );
     res.status(200).json({
       message: "Success update one product by " + product?.user.name,
@@ -85,7 +92,10 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 const deleteProduct = async (req: Request, res: Response) => {
+<<<<<<< HEAD
   // const userId: string = (req as any).userId;
+=======
+>>>>>>> 82baec5 (perubahan database)
   const productId: string = req.params.id;
   try {
     const product = await productService.removeProduct(productId);

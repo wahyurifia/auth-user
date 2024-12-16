@@ -27,7 +27,6 @@ export function Products() {
         setLoading(true);
         const result = await getProducts(token);
         setData(result);
-        console.log(result);
       } catch (error) {
         console.log(error);
         error.response.data.message == "Invalid token"

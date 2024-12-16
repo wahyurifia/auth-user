@@ -2,8 +2,8 @@ import { convertRupiah } from "@/utils/rupiah";
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
-const API_PRODUCTS = "http://localhost:5000/products";
-const API_PRODUCT = "http://localhost:5000/product";
+const API_PRODUCTS = "https://auth-user-mu.vercel.app/products";
+const API_PRODUCT = "https://auth-user-mu.vercel.app/product";
 
 export const getProducts = async (token) => {
   try {
@@ -20,7 +20,6 @@ export const getProducts = async (token) => {
       status: item.status,
       date: convertDate(item.createAt),
     }));
-    console.log(dataProduct);
     return dataProduct;
   } catch (error) {
     console.error("Error fetching data from Supabase:", error);
@@ -49,9 +48,9 @@ export const getProduct = async (token) => {
   }
 };
 
-export const getProductById = async (token, userId) => {
+export const getProductById = async (token, productId) => {
   try {
-    const response = await axios.get(`${API_PRODUCT}/${userId}`, {
+    const response = await axios.get(`${API_PRODUCT}/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
