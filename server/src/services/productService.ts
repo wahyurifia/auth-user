@@ -62,16 +62,10 @@ const editProduct = async (
   productId: string,
   name: string,
   price: number,
-<<<<<<< HEAD
-  status: Status,
+  status: Status
   // userId?: string
 ) => {
   await findProductById(productId);
-=======
-  status: Status
-) => {
-  const data = await findProductById(productId);
->>>>>>> 82baec5 (perubahan database)
 
   const response = await prisma.product.update({
     where: { id: productId },
