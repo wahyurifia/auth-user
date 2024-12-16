@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient, Role, Status } from "@prisma/client";
 const prisma = new PrismaClient();
 import { compareSync, hashSync } from "bcrypt";
 
@@ -45,18 +45,10 @@ const addUser = async (
   });
 };
 
-const editUser = async (
-  id: string,
-  name: string,
-  email: string,
-  hashPassword: string,
-  role: Role
-) => {
-  await cekEmailUnique(email, id);
-
+const editUser = async (id: string, role: Role, status: Status) => {
   const response = await prisma.user.update({
     where: { id },
-    data: { name, email, password: hashPassword, role },
+    data: { role, status },
     select: { id: true, name: true, email: true, role: true },
   });
   return response;
@@ -77,20 +69,11 @@ const cekEmailUnique = async (email: string, userId?: string) => {
   if (user && user?.id !== userId) throw Error("Email already exist!");
 };
 
-const updatePassword = async (id: string, oldPassword: string) => {
-  const user = await findUserById(id);
-  const validatePassword = compareSync(oldPassword, user.password);
-  if (!validatePassword) {
-    throw new Error("Invalid password");
-  }
-};
-
 export default {
   findUsers,
   findUserById,
   addUser,
   editUser,
   removeUser,
-  updatePassword,
   cekEmailUnique,
 };

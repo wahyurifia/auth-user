@@ -1,7 +1,7 @@
 import { convertDate } from "@/utils/moment";
 import axios from "axios";
 
-const API_URL = "https://auth-user-mu.vercel.app/user";
+const API_URL = "https://auth-user-one.vercel.app/user";
 export const getUsers = async (token) => {
   try {
     const response = await axios.get(API_URL, {
@@ -46,25 +46,4 @@ export const getUserById = async (token, userId) => {
   }
 };
 
-// export const addUser = async (token, name, email, password, confPassword) => {
-//   try {
-//     const response = await axios.post(
-//       API_URL,
-//       {
-//         name,
-//         email,
-//         password,
-//         confPassword,
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       },
-//     );
-//     return response;
-//     // console.log(response);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const editUser = async (token, userId) => {};

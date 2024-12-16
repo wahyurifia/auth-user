@@ -13,6 +13,7 @@ const getUsers = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getUserById = async (req: Request, res: Response) => {
   const userId: string = req.params.id;
   try {
@@ -25,6 +26,7 @@ const getUserById = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const createUser = async (req: Request, res: Response) => {
   const { name, email, password, confPassword, role } = req.body;
   try {
@@ -38,27 +40,20 @@ const createUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const updateUser = async (req: Request, res: Response) => {
   const userId: string = req.params.id;
-  const { name, email, oldPassword, password, confPassword, role } = req.body;
+  const { role, status } = req.body;
   try {
     await userService.findUserById(userId);
-    await userService.updatePassword(userId, oldPassword);
-    await cekPassword(password, confPassword);
 
-    const hashPassword = hashSync(password, 10);
-    const user = await userService.editUser(
-      userId,
-      name,
-      email,
-      hashPassword,
-      role
-    );
+    const user = await userService.editUser(userId, role, status);
     res.status(200).json({ message: "Success update user!", user });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 };
+
 const deleteUser = async (req: Request, res: Response) => {
   const userId: string = req.params.id;
   try {

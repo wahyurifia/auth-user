@@ -24,7 +24,7 @@ export function SignUp() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://auth-user-mu.vercel.app/api/auth/register",
+        "https://auth-user-one.vercel.app/api/auth/register",
         data,
       );
       setAlert(true);
