@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Alias untuk folder src
+      "@": path.resolve(__dirname, "src"),
     },
   },
   server: {
-    historyApiFallback: true, // Fix error 404 saat refresh di route selain "/"
-  },
-  preview: {
     historyApiFallback: true,
+  },
+  build: {
+    outDir: "dist",
   },
 });
