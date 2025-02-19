@@ -42,7 +42,7 @@ This project is a **User Management System** built using **JavaScript** (Node.js
 
 Check out the live demo of the project:
 
-[Live Demo](https://your-deployed-url.com)
+[Live Demo]([https://your-deployed-url.com](https://auth-user-6m52.vercel.app/))
 
 ---
 
